@@ -411,10 +411,6 @@ body {
   gap: 1.4rem;
 }
 
-.admin__card--qr {
-  gap: 1.5rem;
-}
-
 .admin__card--results {
   gap: 1.5rem;
 }
@@ -473,42 +469,6 @@ body {
 
 .admin__question-settings .admin__checkbox.is-disabled {
   opacity: 0.45;
-}
-
-.admin__qr-controls {
-  gap: 1.2rem;
-}
-
-.admin__qr-preview {
-  border: 1px dashed var(--border);
-  border-radius: 24px;
-  padding: 1.5rem;
-  min-height: 220px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.admin__qr-preview p {
-  margin: 0;
-  color: var(--text-tertiary);
-}
-
-.admin__qr-preview canvas {
-  width: min(240px, 100%);
-  height: auto;
-}
-
-.admin__qr-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .admin__callout {
