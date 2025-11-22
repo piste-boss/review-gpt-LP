@@ -1,15 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 :root {
-  --bg: #f3fff3;
+  --bg: #fff6eb;
   --panel: rgba(255, 255, 255, 0.9);
-  --ink: #0f2a0f;
-  --muted: #3b5b3b;
-  --primary: #00b900;
-  --primary-strong: #009c00;
-  --accent: #007000;
-  --border: #d9eed9;
-  --shadow: 0 20px 80px rgba(0, 185, 0, 0.12);
+  --ink: #2d1c12;
+  --muted: #6e5645;
+  --primary: #ff7a1a;
+  --primary-strong: #e96600;
+  --accent: #c24a00;
+  --border: #f0dfcd;
+  --shadow: 0 20px 80px rgba(194, 74, 0, 0.12);
   --pin-red: #ff7a1a;
   --pin-green: #2f8f46;
   --pin-blue: #2f7dd9;
@@ -105,6 +105,11 @@ a {
   background: linear-gradient(120deg, var(--primary), var(--primary-strong));
   color: #fff;
   border-color: transparent;
+  box-shadow: 0 10px 40px rgba(255, 122, 26, 0.25);
+}
+
+.link.primary.line {
+  background: linear-gradient(120deg, #00b900, #009c00);
   box-shadow: 0 10px 40px rgba(0, 185, 0, 0.25);
 }
 
@@ -192,7 +197,7 @@ a {
   gap: 8px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(0, 185, 0, 0.12);
+  background: rgba(255, 122, 26, 0.12);
   color: var(--accent);
   font-weight: 600;
   font-size: 0.9rem;
