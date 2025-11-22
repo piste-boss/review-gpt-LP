@@ -308,12 +308,13 @@ a {
   border-radius: 16px;
   padding: 14px;
   background: #fff;
+  color: var(--ink);
 }
 
 .panel__title {
   font-weight: 700;
   margin-top: 0;
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .panel__rows {
@@ -327,11 +328,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .row strong {
-  color: var(--accent);
+  color: var(--primary-strong);
 }
 
 .panel__note {
