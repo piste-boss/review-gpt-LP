@@ -332,7 +332,7 @@ a {
 }
 
 .row strong {
-  color: var(--primary-strong);
+  color: var(--ink);
 }
 
 .panel__note {
