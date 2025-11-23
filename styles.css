@@ -638,6 +638,11 @@ a {
   gap: 10px;
 }
 
+.footer__contact {
+  color: #c8d7ec;
+  font-size: 0.95rem;
+}
+
 .footer .logo-mark {
   color: #cfe8ff;
 }
