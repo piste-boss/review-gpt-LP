@@ -452,11 +452,12 @@ a {
 }
 
 .stats {
-  background: linear-gradient(135deg, #e8f4ff, #d2e8ff);
+  background: #fff;
   color: #0f2a3d;
   border-radius: 24px;
   padding: 32px;
   box-shadow: var(--shadow);
+  border: 1px solid var(--border);
 }
 
 .stats .eyebrow {
