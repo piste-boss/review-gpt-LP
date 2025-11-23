@@ -629,6 +629,64 @@ a {
   font-size: 0.92rem;
 }
 
+.confirm__card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 16px;
+}
+
+.confirm__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.confirm__list div {
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.confirm__list dt {
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 4px;
+}
+
+.confirm__list dd {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.confirm__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.confirm__note {
+  color: var(--muted);
+  margin: 0;
+}
+
+.confirm__error {
+  color: #d8423f;
+  margin: 0;
+  font-weight: 700;
+}
+
+.thankyou__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
 .footer {
   margin-top: 32px;
   padding: 24px;

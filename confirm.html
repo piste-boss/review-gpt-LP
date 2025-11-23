@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>内容確認 | Review GPT</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="logo-mark">クチコミGPT</div>
+        <nav class="nav">
+          <a href="/#features">特徴</a>
+          <a href="/#flow">進め方</a>
+          <a href="/#plans">料金</a>
+          <a href="/#faq">FAQ</a>
+        </nav>
+        <div class="cta-group">
+          <a class="link ghost" href="/#contact">LINE友達登録する</a>
+          <a class="link primary" href="/#contact">無料相談を予約</a>
+        </div>
+      </header>
+
+      <main>
+        <section class="section confirm">
+          <div class="section__head">
+            <p class="eyebrow">入力内容の確認</p>
+            <h2>ご入力内容をご確認ください</h2>
+            <p class="lede">内容に問題がなければ「予約確認」ボタンを押して送信してください。</p>
+          </div>
+
+          <div class="confirm__card">
+            <dl class="confirm__list">
+              <div>
+                <dt>お名前</dt>
+                <dd data-field="name"></dd>
+              </div>
+              <div>
+                <dt>メールアドレス</dt>
+                <dd data-field="email"></dd>
+              </div>
+              <div>
+                <dt>店舗名</dt>
+                <dd data-field="shop"></dd>
+              </div>
+              <div>
+                <dt>業態</dt>
+                <dd data-field="industry"></dd>
+              </div>
+              <div>
+                <dt>ご希望の日程</dt>
+                <dd data-field="preferred_dates"></dd>
+              </div>
+              <div>
+                <dt>相談したいこと</dt>
+                <dd data-field="message"></dd>
+              </div>
+            </dl>
+
+            <div class="confirm__actions">
+              <a id="edit-link" class="link secondary" href="/">修正する</a>
+              <form id="confirm-form">
+                <button type="submit" class="link primary">予約確認</button>
+              </form>
+            </div>
+            <p class="confirm__note" id="confirm-note">送信するとinfo@piste-i.comへ送られ、確認メールが届きます。</p>
+            <p class="confirm__error" id="confirm-error" hidden>送信に失敗しました。時間をおいて再度お試しください。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module">
+      const STORAGE_KEY = 'lpContactForm';
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      const parsed = saved ? JSON.parse(saved) : null;
+      const requiredFields = ['name', 'email', 'shop', 'industry', 'preferred_dates'];
+
+      if (!parsed || requiredFields.some((key) => !parsed[key])) {
+        window.location.href = '/';
+      }
+
+      const fieldEls = document.querySelectorAll('[data-field]');
+      fieldEls.forEach((node) => {
+        const key = node.getAttribute('data-field');
+        node.textContent = parsed?.[key] || '';
+      });
+
+      const form = document.getElementById('confirm-form');
+      const errorEl = document.getElementById('confirm-error');
+      const noteEl = document.getElementById('confirm-note');
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      const appendHiddenFields = () => {
+        Object.entries(parsed || {}).forEach(([key, value]) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = value || '';
+          form.appendChild(input);
+        });
+      };
+
+      appendHiddenFields();
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        errorEl.hidden = true;
+        submitButton.disabled = true;
+        submitButton.textContent = '送信中...';
+        try {
+          const response = await fetch('/.netlify/functions/submit-contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(parsed),
+          });
+
+          if (!response.ok) {
+            throw new Error(await response.text());
+          }
+
+          sessionStorage.removeItem(STORAGE_KEY);
+          window.location.href = '/thanks.html';
+        } catch (error) {
+          console.error(error);
+          errorEl.hidden = false;
+          noteEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+          submitButton.disabled = false;
+          submitButton.textContent = '予約確認';
+        }
+      });
+
+      document.getElementById('edit-link').addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = '/#contact';
+      });
+    </script>
+  </body>
+</html>

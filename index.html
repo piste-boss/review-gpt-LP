@@ -317,6 +317,10 @@
                 <input name="name" required placeholder="山田太郎" />
               </label>
               <label>
+                メールアドレス
+                <input name="email" type="email" required placeholder="example@mail.com" />
+              </label>
+              <label>
                 店舗名
                 <input name="shop" required placeholder="〇〇美容室" />
               </label>
@@ -368,5 +372,18 @@
         </div>
       </footer>
     </div>
+    <script type="module">
+      const FORM_STORAGE_KEY = 'lpContactForm';
+      const contactForm = document.querySelector('form[name="lp-contact"]');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const formData = Object.fromEntries(new FormData(contactForm).entries());
+          sessionStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(formData));
+          window.location.href = '/confirm.html';
+        });
+      }
+    </script>
   </body>
 </html>
