@@ -638,6 +638,10 @@ a {
   gap: 10px;
 }
 
+.footer .logo-mark {
+  color: #9fd5ff;
+}
+
 .footer__links {
   display: flex;
   gap: 12px;
