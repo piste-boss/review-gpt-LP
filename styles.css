@@ -120,9 +120,10 @@ a {
 }
 
 .link.ghost {
-  background: transparent;
-  color: var(--accent);
-  border: 1px dashed var(--border);
+  background: linear-gradient(120deg, #00c853, #00a944);
+  color: #fff;
+  border: 1px solid #00973b;
+  box-shadow: 0 10px 30px rgba(0, 169, 68, 0.25);
 }
 
 .link.big {
