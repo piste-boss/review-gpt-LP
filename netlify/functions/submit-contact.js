@@ -4,6 +4,8 @@ const {
   SENDGRID_API_KEY = '',
   MAIL_FROM = 'info@piste-i.com',
   MAIL_TO = 'info@piste-i.com',
+  LINE_CHANNEL_ACCESS_TOKEN = '',
+  LINE_TARGET_ID = '',
 } = process.env
 
 const corsHeaders = {
@@ -77,34 +79,65 @@ export const handler = async (event) => {
     return jsonResponse(400, { message: `Missing fields: ${missing.join(', ')}` })
   }
 
-  if (!SENDGRID_API_KEY) {
-    console.error('SENDGRID_API_KEY is not set')
-    return jsonResponse(500, { message: 'Email service is not configured.' })
+  let emailSent = false
+  if (SENDGRID_API_KEY) {
+    sgMail.setApiKey(SENDGRID_API_KEY)
+    const adminMessage = {
+      to: MAIL_TO,
+      from: MAIL_FROM,
+      subject: '【Review GPT】無料相談の新規予約',
+      text: renderAdminBody(payload),
+    }
+
+    const userMessage = {
+      to: payload.email,
+      from: MAIL_FROM,
+      subject: 'ご予約ありがとうございます',
+      text: renderUserBody(payload),
+    }
+
+    try {
+      await sgMail.send(adminMessage)
+      await sgMail.send(userMessage)
+      emailSent = true
+    } catch (error) {
+      console.error('Failed to send email', error)
+    }
+  } else {
+    console.warn('SENDGRID_API_KEY is not set. Skipping email.')
   }
 
-  sgMail.setApiKey(SENDGRID_API_KEY)
-
-  const adminMessage = {
-    to: MAIL_TO,
-    from: MAIL_FROM,
-    subject: '【Review GPT】無料相談の新規予約',
-    text: renderAdminBody(payload),
+  const lineMessage = renderAdminBody(payload)
+  const lineEnabled = LINE_CHANNEL_ACCESS_TOKEN && LINE_TARGET_ID
+  let lineSent = false
+  if (lineEnabled) {
+    try {
+      await fetch('https://api.line.me/v2/bot/message/push', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
+        },
+        body: JSON.stringify({
+          to: LINE_TARGET_ID,
+          messages: [{ type: 'text', text: lineMessage }],
+        }),
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error(`LINE push failed: ${res.status} ${res.statusText}`)
+        }
+      })
+      lineSent = true
+    } catch (error) {
+      console.error('Failed to send LINE notification', error)
+    }
+  } else {
+    console.warn('LINE messaging is not configured. Skipping LINE push.')
   }
 
-  const userMessage = {
-    to: payload.email,
-    from: MAIL_FROM,
-    subject: 'ご予約ありがとうございます',
-    text: renderUserBody(payload),
+  if (!emailSent && !lineSent) {
+    return jsonResponse(502, { message: '通知の送信に失敗しました。' })
   }
 
-  try {
-    await sgMail.send(adminMessage)
-    await sgMail.send(userMessage)
-  } catch (error) {
-    console.error('Failed to send email', error)
-    return jsonResponse(502, { message: 'メール送信に失敗しました。' })
-  }
-
-  return jsonResponse(200, { status: 'ok' })
+  return jsonResponse(200, { status: 'ok', emailSent, lineSent })
 }
