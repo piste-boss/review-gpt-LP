@@ -639,6 +639,10 @@ a {
   gap: 10px;
 }
 
+.footer p {
+  margin: 0;
+}
+
 .footer__contact {
   color: #c8d7ec;
   font-size: 0.95rem;
