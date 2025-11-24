@@ -604,6 +604,13 @@ a {
   border: 1px solid var(--border);
 }
 
+.contact__form--placeholder {
+  align-items: center;
+  justify-items: start;
+  font-weight: 600;
+  color: var(--accent);
+}
+
 .contact__form label {
   display: grid;
   gap: 6px;
